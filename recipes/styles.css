@@ -264,7 +264,7 @@ align-items: flex-start;
 gap: 16px;
 margin-bottom: 20px;
 padding: 14px 16px;
-background: #f7f9fc;
+background: #EEF2F7;
 border-radius: 8px;
 border-left: 4px solid transparent;
 }
@@ -317,7 +317,7 @@ justify-content: center;
 }
 
 .notes-body {
-background: #f7f9fc;
+background: #EEF2F7;
 border-left: 4px solid #7087AD;
 border-radius: 0 8px 8px 0;
 padding: 16px 20px;
