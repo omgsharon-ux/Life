@@ -91,6 +91,110 @@ function addInstructionItem(container, text) {
     container.appendChild(div);
 }
 
+function renderNutrition(nutrition) {
+    const container = document.createElement("div");
+    container.className = "nutrition-label";
+
+    if (!nutrition) {
+        container.textContent = "Nutrition information not available.";
+        return container;
+    }
+
+    if (typeof nutrition === "string") {
+        container.classList.add("nutrition-text");
+        container.textContent = nutrition;
+        return container;
+    }
+
+    const dv = {
+        totalFat: 78,
+        saturatedFat: 20,
+        cholesterol: 300,
+        sodium: 2300,
+        totalCarbs: 275,
+        fiber: 28,
+        protein: 50,
+        calcium: 1300,
+        iron: 18,
+        potassium: 4700,
+    };
+
+    const parseAmount = value => {
+        if (!value) return null;
+        const match = String(value).match(/([0-9]+(?:\.[0-9]+)?)/);
+        return match ? parseFloat(match[1]) : null;
+    };
+
+    const getPercent = (key, value) => {
+        const amount = parseAmount(value);
+        const standard = dv[key];
+        if (amount == null || standard == null) return "";
+        const percent = Math.round((amount / standard) * 100);
+        return `${percent}%`;
+    };
+
+    const createRow = (label, value, key, bold = false) => {
+        const row = document.createElement("div");
+        row.className = `nutrition-row${bold ? " nutrition-row-bold" : ""}`;
+
+        const labelEl = document.createElement("span");
+        labelEl.textContent = label;
+        row.appendChild(labelEl);
+
+        const valueArea = document.createElement("span");
+        valueArea.className = "nutrition-row-value";
+        const amountEl = document.createElement("span");
+        amountEl.textContent = value;
+        amountEl.className = "nutrition-value";
+        valueArea.appendChild(amountEl);
+
+        const dvEl = document.createElement("span");
+        dvEl.textContent = getPercent(key, value);
+        dvEl.className = "nutrition-dv";
+        valueArea.appendChild(dvEl);
+
+        row.appendChild(valueArea);
+        return row;
+    };
+
+    const top = document.createElement("div");
+    top.className = "nutrition-top";
+    const title = document.createElement("div");
+    title.className = "nutrition-title";
+    title.textContent = "Nutrition Facts";
+    const servings = document.createElement("div");
+    servings.className = "nutrition-servings";
+    servings.textContent = nutrition.servings ? `Servings ${nutrition.servings}` : "";
+    top.appendChild(title);
+    top.appendChild(servings);
+    container.appendChild(top);
+
+    if (nutrition.calories !== undefined) {
+        const caloriesRow = document.createElement("div");
+        caloriesRow.className = "nutrition-calories";
+        caloriesRow.innerHTML = `
+            <span>Calories</span>
+            <strong>${nutrition.calories}</strong>
+        `;
+        container.appendChild(caloriesRow);
+    }
+
+    if (nutrition.totalFat) container.appendChild(createRow("Total Fat", nutrition.totalFat, "totalFat", true));
+    if (nutrition.saturatedFat) container.appendChild(createRow("Saturated Fat", nutrition.saturatedFat, "saturatedFat"));
+    if (nutrition.transFat) container.appendChild(createRow("Trans Fat", nutrition.transFat, null));
+    if (nutrition.cholesterol) container.appendChild(createRow("Cholesterol", nutrition.cholesterol, "cholesterol"));
+    if (nutrition.sodium) container.appendChild(createRow("Sodium", nutrition.sodium, "sodium"));
+    if (nutrition.totalCarbs) container.appendChild(createRow("Total Carbs", nutrition.totalCarbs, "totalCarbs", true));
+    if (nutrition.fiber) container.appendChild(createRow("Fiber", nutrition.fiber, "fiber"));
+    if (nutrition.sugars) container.appendChild(createRow("Sugars", nutrition.sugars, null));
+    if (nutrition.protein) container.appendChild(createRow("Protein", nutrition.protein, "protein", true));
+    if (nutrition.calcium) container.appendChild(createRow("Calcium", nutrition.calcium, "calcium"));
+    if (nutrition.iron) container.appendChild(createRow("Iron", nutrition.iron, "iron"));
+    if (nutrition.potassium) container.appendChild(createRow("Potassium", nutrition.potassium, "potassium"));
+
+    return container;
+}
+
 async function loadRecipe() {
     const params = new URLSearchParams(window.location.search);
     const recipeId = params.get("id");
@@ -137,8 +241,9 @@ async function loadRecipe() {
     document.getElementById("notes").textContent =
         recipe.notes || "No notes available.";
 
-    document.getElementById("nutrition").textContent =
-        recipe.nutrition || "Nutrition information not available.";
+    const nutritionContainer = document.getElementById("nutrition");
+    nutritionContainer.innerHTML = "";
+    nutritionContainer.appendChild(renderNutrition(recipe.nutrition));
 }
 
 loadRecipe().catch(error => {
