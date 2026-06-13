@@ -95,14 +95,18 @@ function renderNutrition(nutrition) {
     const container = document.createElement("div");
     container.className = "nutrition-label";
 
+    const panel = document.createElement("div");
+    panel.className = "nutrition-panel";
+    container.appendChild(panel);
+
     if (!nutrition) {
-        container.textContent = "Nutrition information not available.";
+        panel.textContent = "Nutrition information not available.";
         return container;
     }
 
     if (typeof nutrition === "string") {
-        container.classList.add("nutrition-text");
-        container.textContent = nutrition;
+        panel.classList.add("nutrition-text");
+        panel.textContent = nutrition;
         return container;
     }
 
@@ -167,7 +171,7 @@ function renderNutrition(nutrition) {
     servings.textContent = nutrition.servings ? `Servings ${nutrition.servings}` : "";
     top.appendChild(title);
     top.appendChild(servings);
-    container.appendChild(top);
+    panel.appendChild(top);
 
     if (nutrition.calories !== undefined) {
         const caloriesRow = document.createElement("div");
@@ -176,21 +180,26 @@ function renderNutrition(nutrition) {
             <span>Calories</span>
             <strong>${nutrition.calories}</strong>
         `;
-        container.appendChild(caloriesRow);
+        panel.appendChild(caloriesRow);
     }
 
-    if (nutrition.totalFat) container.appendChild(createRow("Total Fat", nutrition.totalFat, "totalFat", true));
-    if (nutrition.saturatedFat) container.appendChild(createRow("Saturated Fat", nutrition.saturatedFat, "saturatedFat"));
-    if (nutrition.transFat) container.appendChild(createRow("Trans Fat", nutrition.transFat, null));
-    if (nutrition.cholesterol) container.appendChild(createRow("Cholesterol", nutrition.cholesterol, "cholesterol"));
-    if (nutrition.sodium) container.appendChild(createRow("Sodium", nutrition.sodium, "sodium"));
-    if (nutrition.totalCarbs) container.appendChild(createRow("Total Carbs", nutrition.totalCarbs, "totalCarbs", true));
-    if (nutrition.fiber) container.appendChild(createRow("Fiber", nutrition.fiber, "fiber"));
-    if (nutrition.sugars) container.appendChild(createRow("Sugars", nutrition.sugars, null));
-    if (nutrition.protein) container.appendChild(createRow("Protein", nutrition.protein, "protein", true));
-    if (nutrition.calcium) container.appendChild(createRow("Calcium", nutrition.calcium, "calcium"));
-    if (nutrition.iron) container.appendChild(createRow("Iron", nutrition.iron, "iron"));
-    if (nutrition.potassium) container.appendChild(createRow("Potassium", nutrition.potassium, "potassium"));
+    if (nutrition.totalFat) panel.appendChild(createRow("Total Fat", nutrition.totalFat, "totalFat", true));
+    if (nutrition.saturatedFat) panel.appendChild(createRow("Saturated Fat", nutrition.saturatedFat, "saturatedFat"));
+    if (nutrition.transFat) panel.appendChild(createRow("Trans Fat", nutrition.transFat, null));
+    if (nutrition.cholesterol) panel.appendChild(createRow("Cholesterol", nutrition.cholesterol, "cholesterol"));
+    if (nutrition.sodium) panel.appendChild(createRow("Sodium", nutrition.sodium, "sodium"));
+    if (nutrition.totalCarbs) panel.appendChild(createRow("Total Carbs", nutrition.totalCarbs, "totalCarbs", true));
+    if (nutrition.fiber) panel.appendChild(createRow("Fiber", nutrition.fiber, "fiber"));
+    if (nutrition.sugars) panel.appendChild(createRow("Sugars", nutrition.sugars, null));
+    if (nutrition.protein) panel.appendChild(createRow("Protein", nutrition.protein, "protein", true));
+    if (nutrition.calcium) panel.appendChild(createRow("Calcium", nutrition.calcium, "calcium"));
+    if (nutrition.iron) panel.appendChild(createRow("Iron", nutrition.iron, "iron"));
+    if (nutrition.potassium) panel.appendChild(createRow("Potassium", nutrition.potassium, "potassium"));
+
+    const disclaimer = document.createElement("div");
+    disclaimer.className = "nutrition-disclaimer";
+    disclaimer.textContent = "* The % Daily Value (DV) tells you how much a nutrient in a serving of food contributes to a daily diet. 2,000 calories a day is used for general nutrition advice.";
+    panel.appendChild(disclaimer);
 
     return container;
 }
