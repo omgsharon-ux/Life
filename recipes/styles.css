@@ -348,7 +348,7 @@ color: #555;
 }
 
 .nutrition-panel {
-    background: #fff;
+    background: transparent;
     padding: 16px 14px 12px;
     border-radius: 12px;
 }
