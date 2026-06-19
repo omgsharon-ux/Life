@@ -32,11 +32,13 @@ CREATE TABLE tasks (
 ```
 ALTER TABLE recipes ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "public read recipes" ON recipes FOR SELECT USING (true);
-CREATE POLICY "auth insert recipes" ON recipes FOR INSERT USING (auth.role() = 'authenticated');
+CREATE POLICY "auth insert recipes" ON recipes FOR INSERT WITH CHECK (auth.role() = 'authenticated');
 
 ALTER TABLE tasks ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "public read tasks" ON tasks FOR SELECT USING (true);
-CREATE POLICY "auth modify tasks" ON tasks FOR INSERT, UPDATE, DELETE USING (auth.role() = 'authenticated');
+CREATE POLICY "auth insert tasks" ON tasks FOR INSERT WITH CHECK (auth.role() = 'authenticated');
+CREATE POLICY "auth update tasks" ON tasks FOR UPDATE USING (auth.role() = 'authenticated');
+CREATE POLICY "auth delete tasks" ON tasks FOR DELETE USING (auth.role() = 'authenticated');
 ```
 
 5. Wire the keys into the demo:
