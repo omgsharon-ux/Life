@@ -936,17 +936,23 @@ async function selectRecipe(recipe) {
     closeModal();
 }
 
-// ── TO DO (stays in localStorage — personal/quick notes) ──
+// ── TO DO ──
 const todoInput = document.getElementById("todo-input");
 const todoList  = document.getElementById("todo-list");
 const todoEmpty = document.getElementById("todo-empty");
 
-function saveTodos() {
+async function saveTodos() {
     const items = [];
     todoList.querySelectorAll("li").forEach(li => {
         items.push({ text: li.dataset.text, done: li.classList.contains("done") });
     });
-    localStorage.setItem("life-todos", JSON.stringify(items));
+    try {
+        await fetch("/api/todos", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(items)
+        });
+    } catch(e) { console.warn("Could not save todos:", e); }
 }
 
 function renderTodo(text, done = false) {
@@ -991,18 +997,17 @@ function addTodo() {
 
 todoInput.addEventListener("keydown", e => { if (e.key === "Enter") addTodo(); });
 
-(function loadTodos() {
-    const saved = JSON.parse(localStorage.getItem("life-todos") || "[]");
-    saved.forEach(item => renderTodo(item.text, item.done));
-    todoEmpty.style.display = saved.length === 0 ? "block" : "none";
-})();
-
 // ── INIT ──
 (async function init() {
-    [currentPlan, dinnerHistory] = await Promise.all([
+    const [plan, history, todos] = await Promise.all([
         fetchPlan(currentWeekStart),
-        fetchHistory()
+        fetchHistory(),
+        fetch("/api/todos").then(r => r.json()).catch(() => [])
     ]);
+    currentPlan   = plan;
+    dinnerHistory = history;
+    todos.forEach(item => renderTodo(item.text, item.done));
+    todoEmpty.style.display = todos.length === 0 ? "block" : "none";
     renderMealPlanner();
 })();
 </script>
