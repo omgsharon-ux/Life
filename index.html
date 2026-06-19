@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <div class="header-banner dashboard-header">
+            <span class="dashboard-title">Dashboard</span>
+            <div class="header-datetime">
+                <div id="header-date"></div>
+                <div id="header-clock"></div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+    </main>
+
+    <script>
+        function updateDateTime() {
+            const now = new Date();
+            document.getElementById('header-date').textContent = now.toLocaleDateString('en-US', {
+                weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+            });
+            document.getElementById('header-clock').textContent = now.toLocaleTimeString('en-US', {
+                hour: '2-digit', minute: '2-digit', second: '2-digit'
+            });
+        }
+        updateDateTime();
+        setInterval(updateDateTime, 1000);
+    </script>
+</body>
+</html>

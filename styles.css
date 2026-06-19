@@ -49,6 +49,48 @@ box-shadow: 0 4px 12px rgba(0,0,0,0.18);
 }
 
 /* ==========================================================
+DASHBOARD PAGE
+========================================================== */
+
+.dashboard-header {
+    background: linear-gradient(
+        135deg,
+        #F2C4C0 0%,
+        #D4908A 60%,
+        #B87068 100%
+    ) !important;
+    justify-content: space-between !important;
+    padding: 0 40px;
+}
+
+.dashboard-title {
+    font-size: 36px;
+    font-family: Georgia, serif;
+    font-weight: normal;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #fff9f0;
+}
+
+.header-datetime {
+    text-align: right;
+    color: #fff9f0;
+}
+
+.header-datetime #header-date {
+    font-size: 15px;
+    font-family: Georgia, serif;
+    letter-spacing: 0.04em;
+}
+
+.header-datetime #header-clock {
+    font-size: 24px;
+    font-family: Georgia, serif;
+    letter-spacing: 0.06em;
+    margin-top: 6px;
+}
+
+/* ==========================================================
 INDEX PAGE
 ========================================================== */
 
