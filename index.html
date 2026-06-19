@@ -578,7 +578,9 @@ document.getElementById("header-date").textContent =
     today.getDate() + ", " + today.getFullYear();
 
 // ── DATE UTILS ──
-function dateKey(d) { return d.toISOString().split("T")[0]; }
+function dateKey(d) {
+    return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+}
 
 function getMonday(d) {
     const date = new Date(d);
@@ -672,24 +674,36 @@ function isRecentDinner(recipeId) {
 
 async function archiveWeek() {
     const weekKey = dateKey(currentWeekStart);
-    const filtered = dinnerHistory.filter(h => h.weekKey !== weekKey);
 
-    let count = 0;
+    // Rebuild dinner history for this week (for 3-week rotation tracking)
+    const filtered = dinnerHistory.filter(h => h.weekKey !== weekKey);
+    let mealCount = 0;
+
     for (let i = 0; i < 7; i++) {
-        const dk     = dateKey(addDays(currentWeekStart, i));
-        const dinner = getSlot(dk, "Dinner");
-        if (dinner) {
-            filtered.push({ date: dk, weekKey, recipeId: dinner.id, recipeName: dinner.title });
-            count++;
-        }
+        const dk = dateKey(addDays(currentWeekStart, i));
+        MEALS.forEach(meal => {
+            const recipe = getSlot(dk, meal);
+            if (recipe) {
+                mealCount++;
+                if (meal === "Dinner") {
+                    filtered.push({ date: dk, weekKey, recipeId: recipe.id, recipeName: recipe.title });
+                }
+            }
+        });
     }
 
     dinnerHistory = filtered;
-    await postHistory(dinnerHistory);
+
+    // Save full plan (all meals) + dinner history in parallel
+    await Promise.all([
+        postPlan(currentWeekStart, currentPlan),
+        postHistory(dinnerHistory)
+    ]);
+
     renderHistory();
-    alert(count > 0
-        ? `✓ ${count} dinner${count > 1 ? "s" : ""} saved to history!`
-        : "No dinners were planned for this week.");
+    alert(mealCount > 0
+        ? `✓ Week saved — ${mealCount} meal${mealCount !== 1 ? "s" : ""} archived.`
+        : "No meals were planned for this week.");
 }
 
 // ── WEEK NAVIGATION ──
