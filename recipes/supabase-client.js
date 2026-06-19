@@ -1,7 +1,7 @@
 // Supabase client helper for demo pages
 // Replace SUPABASE_URL and SUPABASE_ANON_KEY with your project values
 const SUPABASE_URL = 'https://birzjhrysrjjvbyzsfoc.supabase.co';
-const SUPABASE_ANON_KEY = 'sb_publishable_DhkuAdHHV658d0mNkSWhuQ_jB5dxbgd';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJpcnpqaHJ5c3JqanZieXpzZm9jIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE4NzY1NjQsImV4cCI6MjA5NzQ1MjU2NH0.xDl683UdnMJCMoi7epp-x_kKCstafIK0mrS_L3PY0d8';
 const supabase = window.supabase && window.supabase.createClient
   ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
   : null;
