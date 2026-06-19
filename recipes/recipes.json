@@ -6375,43 +6375,10 @@
   },
   {
     "id": "slow-cooker-pork-with-apples-and-carrots",
-    "title": "Slow Cooker Pork With Apples & Carrots",
-    "filename": "Slow Cooker Pork With Apples Carrots.html",
-    "category": "Pork",
-    "image": "images/slow-cooker-pork-with-apples-carrots.jpg",
-    "ingredients": [
-      "4 boneless skinless pork chops",
-      "1 Granny Smith apple, cored and sliced",
-      "1 bag baby carrots",
-      "2 tbsp cinnamon",
-      "1/4 cup sweetener (e.g., Truvia)"
-    ],
-    "instructions": [],
-    "notes": "",
-    "nutrition": {
-      "available": true,
-      "servings": "4",
-      "calories": 241,
-      "totalFat": "9g",
-      "saturatedFat": "3g",
-      "transFat": "1g",
-      "cholesterol": "90mg",
-      "sodium": "65mg",
-      "totalCarbs": "21g",
-      "fiber": "3g",
-      "sugars": "5g",
-      "protein": "29g",
-      "calcium": "52mg",
-      "iron": "1mg",
-      "potassium": "566mg"
-    }
-  },
-  {
-    "id": "slow-cooker-pork-with-apples-and-carrots",
     "title": "Slow Cooker Pork with Apples and Carrots",
     "filename": "Slow Cooker Pork with Apples and Carrots.html",
     "category": "Pork",
-    "image": "images/slow-cooker-pork-with-apples-carrots.jpg",
+    "image": "images/slow-cooker-pork-with-apples-and-carrots.jpg",
     "ingredients": [
       "4 boneless pork chops",
       "2 apples, cored and sliced",
